@@ -15,7 +15,7 @@ appSetup () {
   chown -R ${USER_NAME}:${USER_NAME} "${USER_HOME}"
   chmod 0600 "${USER_HOME}/.ssh/authorized_keys"
 
-  if [[ -ne "${USER_KEY}" ]]; then
+  if [ ! -z "${USER_KEY}" ]; then
     mkdir -p "${USER_HOME}/.ssh"
     echo "${USER_KEY}" >> "${USER_HOME}/.ssh/authorized_keys"
   fi
