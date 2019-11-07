@@ -6,11 +6,13 @@ DEFAULT_CLIENT_CONFIG="/etc/openvpn/client.conf"
 
 CLIENT_CONFIG_FILE=${CLIENT_CONFIG_FILE:-${DEFAULT_CLIENT_CONFIG}}
 USER_NAME=${USER_NAME:-anonymous}
-USER_KEY=${USER_KEY:-false}
 
 appSetup () {
-  USER_HOME="/home/${USER_NAME}"
-  adduser -D -s /bin/bash -h ${USER_HOME} ${USER_NAME}
+
+  if getent passwd ${USER_NAME} > /dev/null 2>&1; then
+    USER_HOME="/home/${USER_NAME}"
+    adduser -D -s /bin/bash -h ${USER_HOME} ${USER_NAME}
+  fi
 
   chown -R ${USER_NAME}:${USER_NAME} "${USER_HOME}"
   chmod 0600 "${USER_HOME}/.ssh/authorized_keys"
