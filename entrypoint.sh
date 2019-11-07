@@ -35,6 +35,9 @@ appSetup () {
     cp "${CLIENT_CONFIG_FILE}" "${DEFAULT_CLIENT_CONFIG}"
   fi
 
+  if [ -e "/var/run/rsyslogd.pid" ]; then
+    rm /var/run/rsyslogd.pid
+  fi
 }
 
 appStart () {
