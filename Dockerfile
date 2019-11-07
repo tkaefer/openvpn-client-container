@@ -4,7 +4,7 @@ MAINTAINER Tobias Kaefer <tobias+opnvpnclt@tkaefer.de>
 
 ENV TERM=xterm-color
 
-RUN apk add --update rsyslog supervisor openvpn iptables bash dropbear dropbear-ssh && \
+RUN apk add --update supervisor openvpn iptables bash dropbear dropbear-ssh && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/* /var/cache/distfiles/*
 
 VOLUME ["/etc/openvpn"]
