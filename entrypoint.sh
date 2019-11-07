@@ -8,14 +8,16 @@ CLIENT_CONFIG_FILE=${CLIENT_CONFIG_FILE:-${DEFAULT_CLIENT_CONFIG}}
 USER_NAME=${USER_NAME:-anonymous}
 
 appSetup () {
+  USER_HOME="/home/${USER_NAME}"
 
-  if getent passwd ${USER_NAME} > /dev/null 2>&1; then
-    USER_HOME="/home/${USER_NAME}"
+  USER_EXISTS=$(id -u "${USER_NAME}" > /dev/null 2>&1; echo $?)
+  if [ "${USER_EXISTS}" -eq "1" ]; then
     adduser -D -s /bin/bash -h ${USER_HOME} ${USER_NAME}
   fi
 
   chown -R ${USER_NAME}:${USER_NAME} "${USER_HOME}"
   chmod 0600 "${USER_HOME}/.ssh/authorized_keys"
+
 
   if [ ! -z "${USER_KEY}" ]; then
     mkdir -p "${USER_HOME}/.ssh"
@@ -32,6 +34,10 @@ appSetup () {
   if [ "${DEFAULT_CLIENT_CONFIG}" -ne "${CLIENT_CONFIG_FILE}" ]; then
     cp "${CLIENT_CONFIG_FILE}" "${DEFAULT_CLIENT_CONFIG}"
   fi
+
+  if [ -e "/var/run/rsyslogd.pid" ]; then
+    rm /var/run/rsyslogd.pid
+  fi 
 }
 
 appStart () {
