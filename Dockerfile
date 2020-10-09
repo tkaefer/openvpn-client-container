@@ -7,7 +7,7 @@ ENV TERM=xterm-color
 RUN apk add --update supervisor openvpn iptables bash dropbear dropbear-ssh && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/* /var/cache/distfiles/*
 
-VOLUME ["/etc/openvpn", "/etc/dropbear"]
+VOLUME ["/etc/openvpn", "/etc/dropbear", "/home"]
 
 ENV CLIENT_CONFIG_FILE /etc/openvpn/client.conf
 

@@ -12,17 +12,17 @@ appSetup () {
 
   USER_EXISTS=$(id -u "${USER_NAME}" > /dev/null 2>&1; echo $?)
   if [ "${USER_EXISTS}" -eq "1" ]; then
-    adduser -D -s /bin/bash -h ${USER_HOME} ${USER_NAME}
+    adduser -D -s /bin/sh -h ${USER_HOME} ${USER_NAME}
   fi
-
-  chown -R ${USER_NAME}:${USER_NAME} "${USER_HOME}"
-  chmod 0600 "${USER_HOME}/.ssh/authorized_keys"
 
 
   if [ ! -z "${USER_KEY}" ]; then
     mkdir -p "${USER_HOME}/.ssh"
     echo "${USER_KEY}" >> "${USER_HOME}/.ssh/authorized_keys"
+    chmod 0600 "${USER_HOME}/.ssh/authorized_keys"
   fi
+
+  chown -R ${USER_NAME}:${USER_NAME} "${USER_HOME}"
 
   mkdir -p /etc/dropbear
 
